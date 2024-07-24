@@ -13,8 +13,8 @@ landing_bucket:
   source_format: "CSV"
   csv_files_folder: "csv_files"
   csv_files:
-    #{}
-    - "nome1.csv" # DA MODIFICARE
+    {}
+    #- "nome1.csv" # DA MODIFICARE
     # - "nome2.csv" # DA MODIFICARE
 
 bigquery:
