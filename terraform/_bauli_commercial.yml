@@ -1,0 +1,36 @@
+project_id: "bli-bi-commerciale-test-001"
+location: "europe-west8"
+
+state_bucket_terraform:
+  name: "terraform-state-bucket"
+  location: "europe-west8"
+  storage_class: "STANDARD"
+
+landing_bucket:
+  name: "bli-bi-commerciale-test-001-landing"
+  location: "europe-west8"
+  storage_class: "STANDARD"
+  source_format: "CSV"
+  csv_files_folder: "csv_files"
+  csv_files:
+    #{}
+    - "nome1.csv" # DA MODIFICARE
+    # - "nome2.csv" # DA MODIFICARE
+
+bigquery:
+  dataset_name: "csv_to_datasphere" # DA MODIFICARE
+
+service_account:
+  name: "sa"
+  private_key_type: "TYPE_GOOGLE_CREDENTIALS_FILE"
+  key_algorithm: "KEY_ALG_RSA_2048"
+  roles:
+    - "roles/bigquery.admin"
+    - "roles/bigquery.jobUser"
+    - "roles/storage.objectViewer"
+    - "roles/storage.objectCreator"
+
+enabled_apis:
+  - "bigquery.googleapis.com"
+  - "storage.googleapis.com"
+  - "iam.googleapis.com"
