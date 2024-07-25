@@ -33,10 +33,10 @@ terraform {
     }
   }
 
-  backend "gcs" {
-    bucket = "bli-bi-commerciale-test-001-terraform-state-bucket" # This cannot be dinamically computed
-    prefix = "terraform/state"
-  }
+  # backend "gcs" {
+  #   bucket = "bli-bi-commerciale-test-001-terraform-state-bucket" # This cannot be dynamically computed
+  #   prefix = "terraform/state"
+  # }
 }
 
 provider "google" {
