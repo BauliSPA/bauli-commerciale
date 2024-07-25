@@ -13,9 +13,7 @@ landing_bucket:
   source_format: "CSV"
   csv_files_folder: "csv_files"
   csv_files:
-    {}
-    #- "nome1.csv" # DA MODIFICARE
-    # - "nome2.csv" # DA MODIFICARE
+    - "day.csv"
 
 bigquery:
   dataset_name: "csv_to_datasphere" # DA MODIFICARE
