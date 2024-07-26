@@ -11,9 +11,9 @@ locals {
   avro_files_folder            = local.config.landing_bucket.avro_files_folder
   avro_files                   = local.config.landing_bucket.avro_files
 
-  dataset_name = local.config.bigquery.dataset_name
+  dataset_name     = local.config.bigquery.dataset_name
   dataset_location = local.config.bigquery.dataset_location
-  schemas      = local.config.bigquery.schemas
+  schemas          = local.config.bigquery.schemas
 
   service_account_name  = local.config.service_account.name
   sa_private_key_type   = local.config.service_account.private_key_type
@@ -45,4 +45,3 @@ provider "google" {
   project = local.project_id
   region  = local.location
 }
-
