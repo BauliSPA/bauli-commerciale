@@ -1,39 +1,92 @@
-name: Terraform CI/CD
+# name: Terraform CI/CD
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
 
-jobs:
-  terraform:
-    name: Terraform
-    runs-on: ubuntu-latest
+# jobs:
+#   terraform:
+#     name: Terraform
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0
+#     - name: Setup Terraform
+#       uses: hashicorp/setup-terraform@v1
+#       with:
+#         terraform_version: 1.0.0
 
-    - name: Terraform Init
-      working-directory: ./terraform
-      run: terraform init
+#     - name: Terraform Init (Dev)
+#       if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+#       working-directory: ./terraform/dev
+#       run: terraform init
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
 
-    - name: Terraform Plan
-      working-directory: ./terraform
-      run: terraform plan
+#     - name: Terraform Plan (Dev)
+#       if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+#       working-directory: ./terraform/dev
+#       run: terraform plan
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
 
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
-      working-directory: ./terraform
-      run: terraform apply -auto-approve
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+#     - name: Terraform Apply (Dev)
+#       if: github.event_name == 'pull_request' && github.ref != 'refs/heads/main'
+#       uses: peter-evans/wait-for-approval@v3
+#       with:
+#         environment: development
+#         approval-type: deployment
+#         custom-message: 'Do you approve the terraform apply in dev?'
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
+#     - name: Apply Terraform (Dev)
+#       if: github.event_name == 'pull_request' && github.ref != 'refs/heads/main'
+#       working-directory: ./terraform/dev
+#       run: terraform apply
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
+
+#     - name: Terraform Init (Prod)
+#       if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+#       working-directory: ./terraform/prod
+#       run: terraform init
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PROD }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PROD }}
+
+#     - name: Terraform Plan (Prod)
+#       if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+#       working-directory: ./terraform/prod
+#       run: terraform plan
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PROD }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PROD }}
+
+#     - name: Terraform Apply (Prod)
+#       if: github.ref == 'refs/heads/main'
+#       uses: peter-evans/wait-for-approval@v3
+#       with:
+#         environment: production
+#         approval-type: deployment
+#         custom-message: 'Do you approve the terraform apply in prod?'
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PROD }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PROD }}
+#     - name: Apply Terraform (Prod)
+#       if: github.ref == 'refs/heads/main'
+#       working-directory: ./terraform/prod
+#       run: terraform apply
+#       env:
+#         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PROD }}
+#         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PROD }}

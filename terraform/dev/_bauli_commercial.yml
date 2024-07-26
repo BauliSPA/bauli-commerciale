@@ -34,6 +34,7 @@ service_account:
   private_key_type: "TYPE_GOOGLE_CREDENTIALS_FILE"
   key_algorithm: "KEY_ALG_RSA_2048"
   roles:
+    - "roles/editor"
     - "roles/bigquery.admin"
     - "roles/bigquery.jobUser"
     - "roles/storage.objectViewer"
