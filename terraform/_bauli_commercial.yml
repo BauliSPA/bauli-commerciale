@@ -8,15 +8,26 @@ state_bucket_terraform:
 
 landing_bucket:
   name: "bli-bi-commerciale-test-001-landing"
-  location: "europe-west8"
+  location: "EU"
   storage_class: "STANDARD"
-  source_format: "CSV"
-  csv_files_folder: "csv_files"
-  csv_files:
-    - "day.csv"
+  source_format: "AVRO"
+  avro_files_folder: "avro_files"
+  avro_files:
+    {}
+    # - "example1.avro"
+    # - "example2.avro"
 
 bigquery:
-  dataset_name: "csv_to_datasphere" # DA MODIFICARE
+  dataset_name: "sap_to_bigquery"
+  dataset_location: "EU"
+  schemas:
+    example1: # Name of the table without the .avro suffix
+      - name: "field1"
+        type: "STRING"
+        mode: "NULLABLE"
+      - name: "field2"
+        type: "INTEGER"
+        mode: "REQUIRED"
 
 service_account:
   name: "sa"
