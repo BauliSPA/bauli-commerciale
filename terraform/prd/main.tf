@@ -35,7 +35,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "bli-bi-commerciale-test-001-terraform-state-bucket" # This cannot be dynamically computed
+    bucket = "bli-bi-commerciale-prod-001-terraform-state-bucket"
     prefix = "terraform/state"
   }
 }

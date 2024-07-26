@@ -1,0 +1,185 @@
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  plan-dev:
+    name: "Terraform Init and Plan (dev)"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform/dev
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: ./terraform/dev
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
+
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan-dev
+          path: ./terraform/dev/tfplan
+
+  plan-prd:
+    name: "Terraform Init and Plan (prd)"
+    runs-on: ubuntu-latest
+    needs: plan-dev
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform/prd
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PRD }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PRD }}
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: ./terraform/prd
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PRD }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PRD }}
+
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan-prd
+          path: ./terraform/prd/tfplan
+
+  apply-dev:
+    name: "Terraform Apply (dev)"
+    runs-on: ubuntu-latest
+    needs: plan-dev
+    if: github.event_name == 'pull_request'
+    environment:
+      name: development
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform/dev
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
+
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-plan-dev
+          path: ./terraform/dev
+
+      - name: Terraform Apply
+        run: terraform apply tfplan
+        working-directory: ./terraform/dev
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_DEV }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_DEV }}
+
+  plan-merge-prd:
+    name: "Terraform Plan (prd)"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: [plan-prd]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform/prd
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PRD }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PRD }}
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: ./terraform/prd
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PRD }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PRD }}
+
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan-prd
+          path: ./terraform/prd/tfplan
+
+  apply-prd:
+    name: "Terraform Apply (prd)"
+    runs-on: ubuntu-latest
+    needs: plan-merge-prd
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform/prd
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PRD }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PRD }}
+
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-plan-prd
+          path: ./terraform/prd
+
+      - name: Terraform Apply
+        run: terraform apply tfplan
+        working-directory: ./terraform/prd
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_PRD }}
+          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT_PRD }}

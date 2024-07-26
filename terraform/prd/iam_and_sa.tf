@@ -8,11 +8,11 @@ resource "google_service_account_key" "sa_key" {
   private_key_type   = local.sa_private_key_type
   key_algorithm      = local.sa_key_algorithm
 
-  provisioner "local-exec" {
-    command = <<EOT
-      echo ${google_service_account_key.sa_key.private_key} | base64 --decode > ../sa_key/sa_key_dev.json
-    EOT
-  }
+  # provisioner "local-exec" {
+  #   command = <<EOT
+  #     echo ${google_service_account_key.sa_key.private_key} | base64 --decode > ../sa_key/sa_key_prd.json
+  #   EOT
+  # }
 
   depends_on = [google_service_account.sa]
 }

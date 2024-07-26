@@ -1,4 +1,5 @@
-project_id: "bli-bi-commerciale-test-001"
+project_id_dev: "bli-bi-commerciale-test-001"
+project_id_prd: "bli-bi-commerciale-prod-001"
 location: "europe-west8"
 
 state_bucket_terraform:
@@ -7,7 +8,7 @@ state_bucket_terraform:
   storage_class: "STANDARD"
 
 landing_bucket:
-  name: "bli-bi-commerciale-test-001-landing"
+  name: "landing"
   location: "EU"
   storage_class: "STANDARD"
   source_format: "AVRO"
@@ -30,7 +31,6 @@ bigquery:
         mode: "REQUIRED"
 
 service_account:
-  name: "sa"
   private_key_type: "TYPE_GOOGLE_CREDENTIALS_FILE"
   key_algorithm: "KEY_ALG_RSA_2048"
   roles:
@@ -44,3 +44,4 @@ enabled_apis:
   - "bigquery.googleapis.com"
   - "storage.googleapis.com"
   - "iam.googleapis.com"
+  - "cloudresourcemanager.googleapis.com"
