@@ -4,25 +4,16 @@ Repository with all the infrastructure necessary for the connection between SAP 
 
 ## Directory Structure
 
+```bash
 .
 ├── README.md
+├── .gitignore
 └── terraform
     ├── _bauli_commercial.yml
-    ├── dev
-    │   ├── apis.tf
-    │   ├── bigquery.tf
-    │   ├── iam_and_sa.tf
-    │   ├── main.tf
-    │   ├── state_bucket.tf
-    │   └── storage.tf
-    ├── modules
-    ├── prd
-    │   ├── apis.tf
-    │   ├── bigquery.tf
-    │   ├── iam_and_sa.tf
-    │   ├── main.tf
-    │   ├── state_bucket.tf
-    │   └── storage.tf
-    └── sa_keys
-        ├── sa_key_dev.json
-        └── sa_key_prd.json
+    └── dev
+        ├── apis.tf
+        ├── bigquery.tf
+        ├── iam_and_sa.tf
+        ├── main.tf
+        ├── state_bucket.tf
+        └── storage.tf

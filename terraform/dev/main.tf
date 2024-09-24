@@ -8,11 +8,6 @@ locals {
   landing_bucket_location      = local.config.landing_bucket.location
   landing_bucket_storage_class = local.config.landing_bucket.storage_class
 
-  # TODO: Forse rimuovere le seguenti righe
-  # source_format                = local.config.landing_bucket.source_format
-  # csv_files_folder             = local.config.landing_bucket.csv_files_folder
-  # csv_files                    = local.config.landing_bucket.csv_files
-
   bigquery_datasets = {
     for dataset in local.config.bigquery :
     dataset.dataset_name => {
