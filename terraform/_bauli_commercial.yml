@@ -1,4 +1,5 @@
-project_id: "bli-bi-commerciale-test-001"
+project_id_dev: "bli-bi-commerciale-test-001"
+project_id_prd: "bli-bi-commerciale-prod-001"
 location: "europe-west8"
 
 state_bucket_terraform:
@@ -7,33 +8,33 @@ state_bucket_terraform:
   storage_class: "STANDARD"
 
 landing_bucket:
-  name: "bli-bi-commerciale-test-001-landing"
+  name: "landing"
   location: "EU"
   storage_class: "STANDARD"
-  source_format: "AVRO"
-  avro_files_folder: "avro_files"
-  avro_files:
-    {}
-    # - "example1.avro"
-    # - "example2.avro"
+  # source_format: "CSV"
+  # csv_files_folder: "csv_files"
+  # csv_files:
+  #   {}
+  #   # - "example1.csv"
+  #   # - "example2.csv"
 
 bigquery:
-  dataset_name: "sap_to_bigquery"
-  dataset_location: "EU"
-  schemas:
-    example1: # Name of the table without the .avro suffix
-      - name: "field1"
-        type: "STRING"
-        mode: "NULLABLE"
-      - name: "field2"
-        type: "INTEGER"
-        mode: "REQUIRED"
+  - dataset_name: "SAP_raw"
+    dataset_location: "EU" 
+  - dataset_name: "Risorsa_raw"
+    dataset_location: "EU"    
+  - dataset_name: "Board_raw"
+    dataset_location: "EU" 
+  - dataset_name: "Curated"
+    dataset_location: "EU"    
+  - dataset_name: "Public"
+    dataset_location: "EU"              
 
 service_account:
-  name: "sa"
   private_key_type: "TYPE_GOOGLE_CREDENTIALS_FILE"
   key_algorithm: "KEY_ALG_RSA_2048"
   roles:
+    - "roles/editor"
     - "roles/bigquery.admin"
     - "roles/bigquery.jobUser"
     - "roles/storage.objectViewer"
@@ -43,3 +44,4 @@ enabled_apis:
   - "bigquery.googleapis.com"
   - "storage.googleapis.com"
   - "iam.googleapis.com"
+  - "cloudresourcemanager.googleapis.com"

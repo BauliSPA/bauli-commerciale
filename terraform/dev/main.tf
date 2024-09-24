@@ -1,21 +1,27 @@
 locals {
-  config = yamldecode(file("_bauli_commercial.yml"))
+  config = yamldecode(file("../_bauli_commercial.yml"))
 
-  project_id = local.config.project_id
+  project_id = local.config.project_id_dev
   location   = local.config.location
 
   landing_bucket_name          = local.config.landing_bucket.name
   landing_bucket_location      = local.config.landing_bucket.location
   landing_bucket_storage_class = local.config.landing_bucket.storage_class
-  source_format                = local.config.landing_bucket.source_format
-  avro_files_folder            = local.config.landing_bucket.avro_files_folder
-  avro_files                   = local.config.landing_bucket.avro_files
 
-  dataset_name = local.config.bigquery.dataset_name
-  dataset_location = local.config.bigquery.dataset_location
-  schemas      = local.config.bigquery.schemas
+  # TODO: Forse rimuovere le seguenti righe
+  # source_format                = local.config.landing_bucket.source_format
+  # csv_files_folder             = local.config.landing_bucket.csv_files_folder
+  # csv_files                    = local.config.landing_bucket.csv_files
 
-  service_account_name  = local.config.service_account.name
+  bigquery_datasets = {
+    for dataset in local.config.bigquery :
+    dataset.dataset_name => {
+      location = dataset.dataset_location
+      schemas  = lookup(dataset, "schemas", null)
+    }
+  }
+
+  # TODO: implementare una lista di sa e i loro permessi?
   sa_private_key_type   = local.config.service_account.private_key_type
   sa_key_algorithm      = local.config.service_account.key_algorithm
   service_account_roles = local.config.service_account.roles
@@ -45,4 +51,3 @@ provider "google" {
   project = local.project_id
   region  = local.location
 }
-

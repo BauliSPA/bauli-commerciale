@@ -4,7 +4,12 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
-/terraform/.terraform.lock.hcl
+/terraform/dev/.terraform.lock.hcl
+/terraform/prd/.terraform.lock.hcl
+
+# google credentials
+/terraform/sa_keys/sa_key_dev.json
+/terraform/sa_keys/sa_key_prd.json
 
 # Crash log files
 crash.log
