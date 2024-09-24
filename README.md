@@ -1,6 +1,7 @@
 # bauli-commerciale
 
-Repository with all the infrastructure necessary for the connection between SAP Datasphere and Google BigQuery via Terraform.
+Repository with all the infrastructure necessary for the connection between SAP Datasphere, Risorsa, Board and Google BigQuery.
+Everything is handled in a centralized way via Terraform.
 
 ## Directory Structure
 
