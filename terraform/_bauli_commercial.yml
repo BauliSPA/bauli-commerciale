@@ -45,3 +45,9 @@ enabled_apis:
   - "storage.googleapis.com"
   - "iam.googleapis.com"
   - "cloudresourcemanager.googleapis.com"
+  - "dataform.googleapis.com"
+
+dataform:
+  repository_name: "dataform_repository"
+  display_name: "Bauli Dataform Repository"
+  region: "europe-west1"

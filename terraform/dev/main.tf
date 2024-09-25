@@ -26,13 +26,18 @@ locals {
   terraform_state_bucket_name     = local.config.state_bucket_terraform.name
   terraform_state_bucket_location = local.config.state_bucket_terraform.location
   terraform_state_bucket_class    = local.config.state_bucket_terraform.storage_class
+
+  dataform_repository_name = local.config.dataform.repository_name
+  dataform_display_name    = local.config.dataform.display_name
+  dataform_region          = local.config.dataform.region
+
 }
 
 terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
   }
 
