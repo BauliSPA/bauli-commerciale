@@ -5,6 +5,11 @@ locals {
   project_id = local.config.project_id_dev
   location   = local.config.location
 
+  # Foundation IAM
+  admins_roles      = local.config.foundation_iam.dev.data_admins
+  developers_roles  = local.config.foundation_iam.dev.data_developers
+  maintainers_roles = local.config.foundation_iam.dev.data_maintainers
+
   # Landing bucket
   landing_bucket_name          = local.config.landing_bucket.name
   landing_bucket_location      = local.config.landing_bucket.location
