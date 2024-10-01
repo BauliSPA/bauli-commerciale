@@ -19,15 +19,11 @@ landing_bucket:
   #   # - "example2.csv"
 
 bigquery:
-  - dataset_name: "SAP_raw"
+  - dataset_name: "landing"
     dataset_location: "EU" 
-  - dataset_name: "Risorsa_raw"
+  - dataset_name: "curated"
     dataset_location: "EU"    
-  - dataset_name: "Board_raw"
-    dataset_location: "EU" 
-  - dataset_name: "Curated"
-    dataset_location: "EU"    
-  - dataset_name: "Public"
+  - dataset_name: "public"
     dataset_location: "EU"              
 
 service_account:
@@ -48,6 +44,27 @@ enabled_apis:
   - "dataform.googleapis.com"
 
 dataform:
-  repository_name: "dataform_repository"
-  display_name: "Bauli Dataform Repository"
-  region: "europe-west1"
+  repository:
+    name: "dataform_repository" # Repository name
+    display_name: "Bauli Dataform Repository"
+    region: "europe-west1"
+  release_config:
+    name: "my_release" # Release name
+    git_commitish: "main"
+    cron_schedule: "0 7 * * *"
+    time_zone: "Europe/Rome"
+    code_compilation_config:
+      default_database: "gcp-example-project"
+      default_schema: "example-dataset"
+      default_location: "us-central1"
+      assertion_schema: "example-assertion-dataset"
+      vars:
+        var1: "value"
+        var2: "another_value" 
+  workflow_config:
+    name: "default-workflow"
+    cron_expression: "0 3 * * *"
+    included_targets:
+      database: "bigquery"
+      dataset_id: "curated"
+      

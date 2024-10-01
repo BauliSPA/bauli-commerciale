@@ -14,8 +14,11 @@ Everything is handled in a centralized way via Terraform.
     └── dev
         ├── apis.tf
         ├── bigquery.tf
-        ├── dataform.tf
         ├── iam_and_sa.tf
         ├── main.tf
         ├── state_bucket.tf
-        └── storage.tf
+        ├── storage.tf
+        └── dataform
+            ├── bq_dataform.tf
+            ├── dataform.tf
+            └── variables.tf

@@ -1,3 +1,4 @@
+# Create state bucket for Terraform
 resource "google_storage_bucket" "terraform_state" {
   name          = "${local.project_id}-${local.terraform_state_bucket_name}"
   location      = local.terraform_state_bucket_location

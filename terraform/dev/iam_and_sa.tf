@@ -1,3 +1,4 @@
+# TODO: VA RIVISTA IAM E SA NECESSARI
 resource "google_service_account" "sa" {
   account_id   = "${local.project_id}-sa"
   display_name = "${local.project_id}-sa"
