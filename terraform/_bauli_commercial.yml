@@ -2,6 +2,40 @@ project_id_dev: "bli-bi-commerciale-test-001"
 project_id_prd: "bli-bi-commerciale-prod-001"
 location: "europe-west8"
 
+foundation_iam:
+  dev:
+    data_admins:
+      - roles/dataform.admin
+      - roles/bigquery.admin
+      - roles/storage.admin
+    data_developers:
+      - roles/dataform.codeEditor
+      - roles/dataform.editor
+      - roles/dataform.viewer
+      - roles/bigquery.metadataViewer
+      - roles/bigquery.dataViewer
+      - roles/bigquery.jobUser
+      - roles/bigquery.dataEditor
+      - roles/storage.objectAdmin
+    data_maintainers:
+      - roles/dataform.admin
+      - roles/bigquery.admin
+      - roles/storage.objectAdmin
+  prd:
+    data_admins:
+      - roles/dataform.admin
+      - roles/bigquery.admin
+      - roles/storage.admin
+    data_developers:
+      - roles/dataform.viewer
+      - roles/bigquery.metadataViewer
+      - roles/bigquery.dataViewer
+    data_maintainers:
+      - roles/dataform.viewer
+      - roles/bigquery.metadataViewer
+      - roles/bigquery.dataViewer
+
+
 state_bucket_terraform:
   name: "terraform-state-bucket"
   location: "europe-west8"
