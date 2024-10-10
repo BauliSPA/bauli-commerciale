@@ -58,7 +58,11 @@ bigquery:
   - dataset_name: "curated"
     dataset_location: "EU"    
   - dataset_name: "public"
-    dataset_location: "EU"              
+    dataset_location: "EU"     
+  - dataset_name: "staging"
+    dataset_location: "EU"   
+  - dataset_name: "wrk"
+    dataset_location: "EU"                
 
 service_account:
   private_key_type: "TYPE_GOOGLE_CREDENTIALS_FILE"
