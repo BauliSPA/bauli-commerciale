@@ -73,6 +73,8 @@ service_account:
     - "roles/bigquery.jobUser"
     - "roles/storage.objectViewer"
     - "roles/storage.objectCreator"
+    - "roles/bigquery.dataEditor"
+    - "roles/cloudfunctions.invoker"
 
 enabled_apis:
   - "bigquery.googleapis.com"
@@ -80,6 +82,28 @@ enabled_apis:
   - "iam.googleapis.com"
   - "cloudresourcemanager.googleapis.com"
   - "dataform.googleapis.com"
+
+sftp_to_bigquery:
+  static_ip:
+    name: sftp-static-ip
+    region: europe-west1
+  cloud_function:
+    name: sftp-transfer-function
+    region: europe-west1
+    runtime: python310
+    entry_point: transfer_data
+    memory: 256M
+    timeout: 540  # 9 minutes
+    environment_variables:
+      SFTP_SERVER: sftp.example.com
+      SFTP_USER: sftp_user
+      SFTP_PASSWORD: your_password
+      BIGQUERY_DATASET: landing
+      BIGQUERY_TABLE: your_table
+  scheduler:
+    name: sftp-to-bigquery-scheduler
+    schedule: "0 3 * * *"  # Schedule to run every day at 3 AM
+    time_zone: "Europe/Rome"
 
 dataform:
   repository:

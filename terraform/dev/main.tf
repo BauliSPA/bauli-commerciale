@@ -28,6 +28,10 @@ locals {
   terraform_state_bucket_location = local.config.state_bucket_terraform.location
   terraform_state_bucket_class    = local.config.state_bucket_terraform.storage_class
 
+  # SFTP to BigQuery Configuration
+  static_ip      = local.config.sftp_to_bigquery.static_ip
+  cloud_function = local.config.sftp_to_bigquery.cloud_function
+  scheduler      = local.config.sftp_to_bigquery.scheduler
 }
 
 terraform {
