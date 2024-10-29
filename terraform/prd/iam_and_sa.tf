@@ -12,7 +12,7 @@ resource "google_service_account_key" "sa_key" {
 
   provisioner "local-exec" {
     command = <<EOT
-      echo ${google_service_account_key.sa_key.private_key} | base64 --decode > ../sa_keys/sa_key_dev.json
+      echo ${google_service_account_key.sa_key.private_key} | base64 --decode > ../sa_keys/sa_key_prd.json
     EOT
   }
 

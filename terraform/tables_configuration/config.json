@@ -1,0 +1,1090 @@
+{
+    "tables": [
+        {
+            "table_name": "campagna_canvass",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "campagna_canvass_cd",
+                    "description": "Codice della campagna canvass",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "campagna_canvass_ds",
+                    "description": "Descrizione della campagna canvass",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "campagna_anno_cd",
+                    "description": "Codice dell'anno della campagna",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "campagna_anno_ds",
+                    "description": "Descrizione dell'anno della campagna",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "tipo_campagna_cd",
+                    "description": "Codice del tipo di campagna",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "tipo_campagna_ds",
+                    "description": "Descrizione del tipo di campagna",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "tipo_esercizio_cd",
+                    "description": "Codice del tipo di esercizio",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "tipo_esercizio_ds",
+                    "description": "Descrizione del tipo di esercizio",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "esercizio_cd",
+                    "description": "Codice dell'esercizio",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "esercizio_ds",
+                    "description": "Descrizione dell'esercizio",
+                    "type": "string",
+                    "order": 10
+                }
+            ]
+        },
+        {
+            "table_name": "cliente",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "div_consegnamerce_userid_cd",
+                    "description": "Codice dell'utente per la consegna merce (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "div_consegnamerce_userid_ds",
+                    "description": "Descrizione dell'utente per la consegna merce (ds)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "user_id_cd",
+                    "description": "Codice dell'utente (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "user_id_ds",
+                    "description": "Descrizione dell'utente (ds)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "tipo_visibilita_cd",
+                    "description": "Codice del tipo di visibilità (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "tipo_visibilita_ds",
+                    "description": "Descrizione del tipo di visibilità (ds)",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "div_consegnamerce_cd",
+                    "description": "Codice della divisione per la consegna merce (cd)",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "div_consegnamerce_ds",
+                    "description": "Descrizione della divisione per la consegna merce (ds)",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "insegna_cd",
+                    "description": "Codice dell'insegna (cd)",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "insegna_ds",
+                    "description": "Descrizione dell'insegna (ds)",
+                    "type": "string",
+                    "order": 10
+                },
+                {
+                    "id": "canale_cd",
+                    "description": "Codice del canale (cd)",
+                    "type": "string",
+                    "order": 11
+                },
+                {
+                    "id": "canale_ds",
+                    "description": "Descrizione del canale (ds)",
+                    "type": "string",
+                    "order": 12
+                },
+                {
+                    "id": "livello_gerarchico_reale_cd",
+                    "description": "Codice del livello gerarchico reale (cd)",
+                    "type": "string",
+                    "order": 13
+                },
+                {
+                    "id": "livello_gerarchico_reale_ds",
+                    "description": "Descrizione del livello gerarchico reale (ds)",
+                    "type": "string",
+                    "order": 14
+                },
+                {
+                    "id": "div_affidatario_cd",
+                    "description": "Codice della divisione affidataria (cd)",
+                    "type": "string",
+                    "order": 15
+                },
+                {
+                    "id": "div_affidatario_ds",
+                    "description": "Descrizione della divisione affidataria (ds)",
+                    "type": "string",
+                    "order": 16
+                },
+                {
+                    "id": "div_cliente_piano_assegnatario_cd",
+                    "description": "Codice del cliente piano assegnatario (cd)",
+                    "type": "string",
+                    "order": 17
+                },
+                {
+                    "id": "div_cliente_piano_assegnatario_ds",
+                    "description": "Descrizione del cliente piano assegnatario (ds)",
+                    "type": "string",
+                    "order": 18
+                },
+                {
+                    "id": "div_assegnatario_cd",
+                    "description": "Codice della divisione assegnataria (cd)",
+                    "type": "string",
+                    "order": 19
+                },
+                {
+                    "id": "div_assegnatario_ds",
+                    "description": "Descrizione della divisione assegnataria (ds)",
+                    "type": "string",
+                    "order": 20
+                },
+                {
+                    "id": "div_distretto_assegnatario_cd",
+                    "description": "Codice del distretto assegnatario (cd)",
+                    "type": "string",
+                    "order": 21
+                },
+                {
+                    "id": "div_distretto_assegnatario_ds",
+                    "description": "Descrizione del distretto assegnatario (ds)",
+                    "type": "string",
+                    "order": 22
+                },
+                {
+                    "id": "div_cliente_piano_pianificatore_cd",
+                    "description": "Codice del cliente piano pianificatore (cd)",
+                    "type": "string",
+                    "order": 23
+                },
+                {
+                    "id": "div_cliente_piano_pianificatore_ds",
+                    "description": "Descrizione del cliente piano pianificatore (ds)",
+                    "type": "string",
+                    "order": 24
+                },
+                {
+                    "id": "div_pianificatore_cd",
+                    "description": "Codice della divisione pianificatrice (cd)",
+                    "type": "string",
+                    "order": 25
+                },
+                {
+                    "id": "div_pianificatore_ds",
+                    "description": "Descrizione della divisione pianificatrice (ds)",
+                    "type": "string",
+                    "order": 26
+                },
+                {
+                    "id": "div_distretto_pianificatore_cd",
+                    "description": "Codice del distretto pianificatore (cd)",
+                    "type": "string",
+                    "order": 27
+                },
+                {
+                    "id": "div_distretto_pianificatore_ds",
+                    "description": "Descrizione del distretto pianificatore (ds)",
+                    "type": "string",
+                    "order": 28
+                },
+                {
+                    "id": "div_area_pianificatore_cd",
+                    "description": "Codice dell'area pianificatore (cd)",
+                    "type": "string",
+                    "order": 29
+                },
+                {
+                    "id": "div_area_pianificatore_ds",
+                    "description": "Descrizione dell'area pianificatore (ds)",
+                    "type": "string",
+                    "order": 30
+                },
+                {
+                    "id": "div_cliente_piano_cd",
+                    "description": "Codice del cliente piano (cd)",
+                    "type": "string",
+                    "order": 31
+                },
+                {
+                    "id": "div_cliente_piano_ds",
+                    "description": "Descrizione del cliente piano (ds)",
+                    "type": "string",
+                    "order": 32
+                },
+                {
+                    "id": "div_supercentrale_cp_cd",
+                    "description": "Codice della supercentrale CP (cd)",
+                    "type": "string",
+                    "order": 33
+                },
+                {
+                    "id": "div_supercentrale_cp_ds",
+                    "description": "Descrizione della supercentrale CP (ds)",
+                    "type": "string",
+                    "order": 34
+                },
+                {
+                    "id": "divisione_cm_cd",
+                    "description": "Codice della divisione CM (cd)",
+                    "type": "string",
+                    "order": 35
+                },
+                {
+                    "id": "divisione_cm_ds",
+                    "description": "Descrizione della divisione CM (ds)",
+                    "type": "string",
+                    "order": 36
+                },
+                {
+                    "id": "punto_vendita_cd",
+                    "description": "Codice del punto vendita (cd)",
+                    "type": "string",
+                    "order": 37
+                },
+                {
+                    "id": "punto_vendita_ds",
+                    "description": "Descrizione del punto vendita (ds)",
+                    "type": "string",
+                    "order": 38
+                },
+                {
+                    "id": "cedi_cd",
+                    "description": "Codice del cedi (cd)",
+                    "type": "string",
+                    "order": 39
+                },
+                {
+                    "id": "cedi_ds",
+                    "description": "Descrizione del cedi (ds)",
+                    "type": "string",
+                    "order": 40
+                },
+                {
+                    "id": "cedec_cd",
+                    "description": "Codice del cedec (cd)",
+                    "type": "string",
+                    "order": 41
+                },
+                {
+                    "id": "cedec_ds",
+                    "description": "Descrizione del cedec (ds)",
+                    "type": "string",
+                    "order": 42
+                },
+                {
+                    "id": "supercedec_cd",
+                    "description": "Codice del supercedec (cd)",
+                    "type": "string",
+                    "order": 43
+                },
+                {
+                    "id": "supercedec_ds",
+                    "description": "Descrizione del supercedec (ds)",
+                    "type": "string",
+                    "order": 44
+                },
+                {
+                    "id": "centrale_cd",
+                    "description": "Codice della centrale (cd)",
+                    "type": "string",
+                    "order": 45
+                },
+                {
+                    "id": "centrale_ds",
+                    "description": "Descrizione della centrale (ds)",
+                    "type": "string",
+                    "order": 46
+                },
+                {
+                    "id": "supercentrale_cd",
+                    "description": "Codice della supercentrale (cd)",
+                    "type": "string",
+                    "order": 47
+                },
+                {
+                    "id": "supercentrale_ds",
+                    "description": "Descrizione della supercentrale (ds)",
+                    "type": "string",
+                    "order": 48
+                },
+                {
+                    "id": "nam_cd",
+                    "description": "Codice del NAM (cd)",
+                    "type": "string",
+                    "order": 49
+                },
+                {
+                    "id": "nam_ds",
+                    "description": "Descrizione del NAM (ds)",
+                    "type": "string",
+                    "order": 50
+                },
+                {
+                    "id": "totale_div_supercentrale_cp_cd",
+                    "description": "Codice del totale divisione supercentrale CP (cd)",
+                    "type": "string",
+                    "order": 51
+                },
+                {
+                    "id": "totale_div_supercentrale_cp_ds",
+                    "description": "Descrizione del totale divisione supercentrale CP (ds)",
+                    "type": "string",
+                    "order": 52
+                },
+                {
+                    "id": "cliente_fatturazione_cd",
+                    "description": "Codice del cliente fatturazione (cd)",
+                    "type": "string",
+                    "order": 53
+                },
+                {
+                    "id": "cliente_fatturazione_ds",
+                    "description": "Descrizione del cliente fatturazione (ds)",
+                    "type": "string",
+                    "order": 54
+                },
+                {
+                    "id": "div_nam_cp_cd",
+                    "description": "Codice del NAM CP (cd)",
+                    "type": "string",
+                    "order": 55
+                },
+                {
+                    "id": "div_nam_cp_ds",
+                    "description": "Descrizione del NAM CP (ds)",
+                    "type": "string",
+                    "order": 56
+                },
+                {
+                    "id": "div_centrale_cp_cd",
+                    "description": "Codice della centrale CP (cd)",
+                    "type": "string",
+                    "order": 57
+                },
+                {
+                    "id": "div_centrale_cp_ds",
+                    "description": "Descrizione della centrale CP (ds)",
+                    "type": "string",
+                    "order": 58
+                },
+                {
+                    "id": "cliente_piano_cd",
+                    "description": "Codice del cliente piano (cd)",
+                    "type": "string",
+                    "order": 59
+                },
+                {
+                    "id": "cliente_piano_ds",
+                    "description": "Descrizione del cliente piano (ds)",
+                    "type": "string",
+                    "order": 60
+                },
+                {
+                    "id": "centrale_cp_cd",
+                    "description": "Codice della centrale CP (cd)",
+                    "type": "string",
+                    "order": 61
+                },
+                {
+                    "id": "centrale_cp_ds",
+                    "description": "Descrizione della centrale CP (ds)",
+                    "type": "string",
+                    "order": 62
+                },
+                {
+                    "id": "supercentrale_cp_cd",
+                    "description": "Codice della supercentrale CP (cd)",
+                    "type": "string",
+                    "order": 63
+                },
+                {
+                    "id": "supercentrale_cp_ds",
+                    "description": "Descrizione della supercentrale CP (ds)",
+                    "type": "string",
+                    "order": 64
+                }
+            ]
+        },
+        {
+            "table_name": "prodotto",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "referenza_cd",
+                    "description": "Codice della referenza (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "referenza_ds",
+                    "description": "Descrizione della referenza (ds)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "raggrprodotto_cd",
+                    "description": "Codice del raggruppamento prodotto (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "raggrprodotto_ds",
+                    "description": "Descrizione del raggruppamento prodotto (ds)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "linea_cd",
+                    "description": "Codice della linea (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "linea_ds",
+                    "description": "Descrizione della linea (ds)",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "raggruppamento_linea_cd",
+                    "description": "Codice del raggruppamento linea (cd)",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "raggruppamento_linea_ds",
+                    "description": "Descrizione del raggruppamento linea (ds)",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "macro_raggruppamento_linea_cd",
+                    "description": "Codice del macro raggruppamento linea (cd)",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "macro_raggruppamento_linea_ds",
+                    "description": "Descrizione del macro raggruppamento linea (ds)",
+                    "type": "string",
+                    "order": 10
+                },
+                {
+                    "id": "macro_macro_raggruppamento_linea_cd",
+                    "description": "Codice del macro macro raggruppamento linea (cd)",
+                    "type": "string",
+                    "order": 11
+                },
+                {
+                    "id": "macro_macro_raggruppamento_linea_ds",
+                    "description": "Descrizione del macro macro raggruppamento linea (ds)",
+                    "type": "string",
+                    "order": 12
+                },
+                {
+                    "id": "raggrmacroraggrlinea_cd",
+                    "description": "Codice del raggruppamento macro raggruppamento linea (cd)",
+                    "type": "string",
+                    "order": 13
+                },
+                {
+                    "id": "raggrmacroraggrlinea_ds",
+                    "description": "Descrizione del raggruppamento macro raggruppamento linea (ds)",
+                    "type": "string",
+                    "order": 14
+                },
+                {
+                    "id": "marchio_cd",
+                    "description": "Codice del marchio (cd)",
+                    "type": "string",
+                    "order": 15
+                },
+                {
+                    "id": "marchio_ds",
+                    "description": "Descrizione del marchio (ds)",
+                    "type": "string",
+                    "order": 16
+                },
+                {
+                    "id": "raggruppamento_marchio_cd",
+                    "description": "Codice del raggruppamento marchio (cd)",
+                    "type": "string",
+                    "order": 17
+                },
+                {
+                    "id": "raggruppamento_marchio_ds",
+                    "description": "Descrizione del raggruppamento marchio (ds)",
+                    "type": "string",
+                    "order": 18
+                },
+                {
+                    "id": "macro_raggruppamento_marchio_cd",
+                    "description": "Codice del macro raggruppamento marchio (cd)",
+                    "type": "string",
+                    "order": 19
+                },
+                {
+                    "id": "macro_raggruppamento_marchio_ds",
+                    "description": "Descrizione del macro raggruppamento marchio (ds)",
+                    "type": "string",
+                    "order": 20
+                },
+                {
+                    "id": "codice_ricetta_cd",
+                    "description": "Codice della ricetta (cd)",
+                    "type": "string",
+                    "order": 21
+                },
+                {
+                    "id": "codice_ricetta_ds",
+                    "description": "Descrizione della ricetta (ds)",
+                    "type": "string",
+                    "order": 22
+                },
+                {
+                    "id": "raggruppamento_ricetta_cd",
+                    "description": "Codice del raggruppamento ricetta (cd)",
+                    "type": "string",
+                    "order": 23
+                },
+                {
+                    "id": "raggruppamento_ricetta_ds",
+                    "description": "Descrizione del raggruppamento ricetta (ds)",
+                    "type": "string",
+                    "order": 24
+                },
+                {
+                    "id": "peso_cd",
+                    "description": "Peso del prodotto",
+                    "type": "string",
+                    "order": 25
+                },
+                {
+                    "id": "peso_ds",
+                    "description": "Descrizione del peso",
+                    "type": "string",
+                    "order": 26
+                },
+                {
+                    "id": "pezzi_cd",
+                    "description": "Numero di pezzi del prodotto",
+                    "type": "string",
+                    "order": 27
+                },
+                {
+                    "id": "pezzi_ds",
+                    "description": "Descrizione dei pezzi del prodotto",
+                    "type": "string",
+                    "order": 28
+                },
+                {
+                    "id": "sub_marchio_cd",
+                    "description": "Codice del sub marchio (cd)",
+                    "type": "string",
+                    "order": 29
+                },
+                {
+                    "id": "sub_marchio_ds",
+                    "description": "Descrizione del sub marchio (ds)",
+                    "type": "string",
+                    "order": 30
+                }
+            ]
+        },
+        {
+            "table_name": "nazione",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "nazione_cd",
+                    "description": "Codice nazione (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "nazione_ds",
+                    "description": "Descrizione nazione (ds)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "raggruppamento_nazione_cd",
+                    "description": "Codice raggruppamento nazione (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "raggruppamento_nazione_ds",
+                    "description": "Descrizione raggruppamento nazione (ds)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "continente_cd",
+                    "description": "Codice continente (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "continente_ds",
+                    "description": "Descrizione continente (ds)",
+                    "type": "string",
+                    "order": 6
+                }
+            ]
+        },
+        {
+            "table_name": "consuntivo",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "div_consegnamerce_cd",
+                    "description": "Codice della div consegna merce (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "referenza_cd",
+                    "description": "Codice della referenza (cd)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "campagna_canvass_cd",
+                    "description": "Codice della campagna canvass (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "nazione_cd",
+                    "description": "Codice della nazione (cd)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "divisione_cd",
+                    "description": "Codice della divisione (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "righe_ce_cd",
+                    "description": "Codice della riga ce (cd)",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "flag_promo_fl",
+                    "description": "Flag della promo (fl)",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "fuori_catalogo_fl",
+                    "description": "Flag del fuori catalogo (fl)",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "tipo_valuta_cd",
+                    "description": "Codice del tipo valuta (cd)",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "tipo_ce_cd",
+                    "description": "Codice del tipo ce (cd)",
+                    "type": "string",
+                    "order": 10
+                },
+                {
+                    "id": "mese_cd",
+                    "description": "Codice del mese (cd)",
+                    "type": "string",
+                    "order": 11
+                },
+                {
+                    "id": "valore",
+                    "description": "Valore consuntivo",
+                    "type": "string",
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "table_name": "consuntivo_ap_al",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "div_consegnamerce_cd",
+                    "description": "Codice della div consegna merce (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "referenza_cd",
+                    "description": "Codice della referenza (cd)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "campagna_canvass_cd",
+                    "description": "Codice della campagna canvass (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "nazione_cd",
+                    "description": "Codice della nazione (cd)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "divisione_cd",
+                    "description": "Codice della divisione (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "righe_ce_cd",
+                    "description": "Codice della riga ce (cd)",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "flag_promo_fl",
+                    "description": "Flag della promo (fl)",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "fuori_catalogo_fl",
+                    "description": "Flag del fuori catalogo (fl)",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "tipo_valuta_cd",
+                    "description": "Codice del tipo valuta (cd)",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "tipo_ce_cd",
+                    "description": "Codice del tipo ce (cd)",
+                    "type": "string",
+                    "order": 10
+                },
+                {
+                    "id": "mese_cd",
+                    "description": "Codice del mese (cd)",
+                    "type": "string",
+                    "order": 11
+                },
+                {
+                    "id": "valore",
+                    "description": "Valore consuntivo",
+                    "type": "string",
+                    "order": 12
+                }
+            ]
+        },
+        {
+            "table_name": "consuntivo_storico",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "div_consegnamerce_cd",
+                    "description": "Codice della div consegna merce (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "referenza_cd",
+                    "description": "Codice della referenza (cd)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "campagna_canvass_cd",
+                    "description": "Codice della campagna canvass (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "nazione_cd",
+                    "description": "Codice della nazione (cd)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "divisione_cd",
+                    "description": "Codice della divisione (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "righe_ce_cd",
+                    "description": "Codice della riga ce (cd)",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "flag_promo_fl",
+                    "description": "Flag della promo (fl)",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "fuori_catalogo_fl",
+                    "description": "Flag del fuori catalogo (fl)",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "tipo_valuta_cd",
+                    "description": "Codice del tipo valuta (cd)",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "tipo_ce_cd",
+                    "description": "Codice del tipo ce (cd)",
+                    "type": "string",
+                    "order": 10
+                },
+                {
+                    "id": "mese_cd",
+                    "description": "Codice del mese (cd)",
+                    "type": "string",
+                    "order": 11
+                },
+                {
+                    "id": "valore",
+                    "description": "Valore consuntivo",
+                    "type": "string",
+                    "order": 12
+                }                
+            ]
+        },
+        {
+            "table_name": "budget",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "referenza_cd",
+                    "description": "Codice della referenza (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "div_cliente_piano_cd",
+                    "description": "Codice della divisione cliente piano (cd)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "nazione_cd",
+                    "description": "Codice della nazione (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "divisione_cd",
+                    "description": "Codice della divisione (cd)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "righe_ce_cd",
+                    "description": "Codice della righe ce (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "campagna_anno_cd",
+                    "description": "Codice della campagna anno (cd)",
+                    "type": "string",
+                    "order": 6
+                },
+                {
+                    "id": "scenario_cd",
+                    "description": "Codice scenario (cd)",
+                    "type": "string",
+                    "order": 7
+                },
+                {
+                    "id": "tipo_valuta_cd",
+                    "description": "Codice tipo valuta (cd)",
+                    "type": "string",
+                    "order": 8
+                },
+                {
+                    "id": "processo_cd",
+                    "description": "Codice del processo (cd)",
+                    "type": "string",
+                    "order": 9
+                },
+                {
+                    "id": "mese_cd",
+                    "description": "Codice del mese (cd)",
+                    "type": "string",
+                    "order": 10
+                },
+                {
+                    "id": "valore",
+                    "description": "Valore del consuntivo",
+                    "type": "string",
+                    "order": 11
+                }
+            ]
+        },
+        {
+            "table_name": "mtx_business_unit",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "divisione_cd",
+                    "description": "Codice della divisione (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "tipocampagna_cd",
+                    "description": "Codice del tipo campagna(cd)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "macromacroraggrlinea_cd",
+                    "description": "Codice del macro macro raggruppamento linea (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "business_cd",
+                    "description": "Codice del business (cd)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "empty",
+                    "description": "empty",
+                    "type": "string",
+                    "order": 5
+                }
+            ]
+        },
+        {
+            "table_name": "business",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "business_cd",
+                    "description": "Codice del business (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "business_ds",
+                    "description": "Descrizione del business (ds)",
+                    "type": "string",
+                    "order": 2
+                },
+                {
+                    "id": "businessunit_cd",
+                    "description": "Codice della business unit (cd)",
+                    "type": "string",
+                    "order": 3
+                },
+                {
+                    "id": "businessunit_ds",
+                    "description": "Descrizione della business unit (ds)",
+                    "type": "string",
+                    "order": 4
+                },
+                {
+                    "id": "businesstype_cd",
+                    "description": "Codice del business type (cd)",
+                    "type": "string",
+                    "order": 5
+                },
+                {
+                    "id": "businesstype_ds",
+                    "description": "Descrizione del business type (ds)",
+                    "type": "string",
+                    "order": 6
+                }
+            ]
+        },
+        {
+            "table_name": "divisione",
+            "method": "full",
+            "columns": [
+                {
+                    "id": "divisione_cd",
+                    "description": "Codice della divisione (cd)",
+                    "type": "string",
+                    "order": 1
+                },
+                {
+                    "id": "divisione_ds",
+                    "description": "Descrizione della divisione (ds)",
+                    "type": "string",
+                    "order": 2
+                }
+			]
+        }
+    ]
+}

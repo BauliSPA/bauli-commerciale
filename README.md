@@ -8,15 +8,18 @@ Everything is handled in a centralized way via Terraform.
 ```bash
 .
 ├── README.md
+├── .github
 ├── .gitignore
 └── terraform
     ├── _bauli_commercial.yml
     ├── dev
     |   ├── apis.tf
     |   ├── bigquery.tf
-    |   ├── dataform.tf
+    |   ├── foundation.tf
     |   ├── iam_and_sa.tf
     |   ├── main.tf
+    |   ├── secrets.tf
+    |   ├── sftp_connector.tf
     |   ├── state_bucket.tf
     |   ├── storage.tf
     |   └── dataform
@@ -24,6 +27,16 @@ Everything is handled in a centralized way via Terraform.
     |       ├── dataform.tf
     |       └── variables.tf
     └── prd
-        ├── dataform.tf
+        ├── apis.tf
+        ├── bigquery.tf
+        ├── foundation.tf
+        ├── iam_and_sa.tf
         ├── main.tf
-        └── state_bucket.tf
+        ├── secrets.tf
+        ├── sftp_connector.tf
+        ├── state_bucket.tf
+        ├── storage.tf
+        └── dataform
+            ├── bq_dataform.tf
+            ├── dataform.tf
+            └── variables.tf

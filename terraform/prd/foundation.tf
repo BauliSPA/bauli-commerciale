@@ -22,5 +22,5 @@ resource "google_project_iam_member" "maintainers_binding" {
 
   project = local.project_id
   role    = each.value
-  member  = "group:data_maintaners@bauli.it" # Typo error in the group creation, not here # TODO: è possibile rinominare il gruppo creato?
+  member  = "group:data_maintaners@bauli.it" # Typo error in the group creation (google Groups), not here
 }

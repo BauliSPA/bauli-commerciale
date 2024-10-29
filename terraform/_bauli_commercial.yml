@@ -45,12 +45,6 @@ landing_bucket:
   name: "landing"
   location: "EU"
   storage_class: "STANDARD"
-  # source_format: "CSV"
-  # csv_files_folder: "csv_files"
-  # csv_files:
-  #   {}
-  #   # - "example1.csv"
-  #   # - "example2.csv"
 
 bigquery:
   - dataset_name: "landing"
@@ -73,6 +67,13 @@ service_account:
     - "roles/bigquery.jobUser"
     - "roles/storage.objectViewer"
     - "roles/storage.objectCreator"
+    - "roles/cloudfunctions.invoker"
+    - "roles/secretmanager.secretAccessor"
+    - "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+    - "roles/dataform.editor"
+    - "roles/run.invoker"
+    - "roles/eventarc.eventReceiver"
+    - "roles/artifactregistry.reader"
 
 enabled_apis:
   - "bigquery.googleapis.com"
@@ -80,29 +81,161 @@ enabled_apis:
   - "iam.googleapis.com"
   - "cloudresourcemanager.googleapis.com"
   - "dataform.googleapis.com"
+  - "secretmanager.googleapis.com"
+  - "cloudkms.googleapis.com"
+  - "compute.googleapis.com"
+  - "vpcaccess.googleapis.com"
+  - "cloudfunctions.googleapis.com"
+  - "cloudbuild.googleapis.com"
+  - "run.googleapis.com"
+  - "cloudscheduler.googleapis.com"
+  - "eventarc.googleapis.com"
 
-dataform:
-  repository:
-    name: "dataform_repository" # Repository name
-    display_name: "Bauli Dataform Repository"
-    region: "europe-west1"
-  release_config:
-    name: "my_release" # Release name
-    git_commitish: "main"
-    cron_schedule: "0 7 * * *"
-    time_zone: "Europe/Rome"
-    code_compilation_config:
-      default_database: "gcp-example-project"
-      default_schema: "example-dataset"
-      default_location: "us-central1"
-      assertion_schema: "example-assertion-dataset"
-      vars:
-        var1: "value"
-        var2: "another_value" 
-  workflow_config:
-    name: "default-workflow"
-    cron_expression: "0 3 * * *"
-    included_targets:
-      database: "bigquery"
-      dataset_id: "curated"
-      
+# dataform:
+#   repository:
+#     name: "dataform_repository" # Repository name
+#     display_name: "Bauli Dataform Repository"
+#     region: "europe-west1"
+#   release_config:
+#     name: "my_release" # Release name
+#     git_commitish: "main"
+#     cron_schedule: "0 7 * * *"
+#     time_zone: "Europe/Rome"
+#     code_compilation_config:
+#       default_database: "gcp-example-project"
+#       default_schema: "example-dataset"
+#       default_location: "us-central1"
+#       assertion_schema: "example-assertion-dataset"
+#       vars:
+#         var1: "value"
+#         var2: "another_value" 
+#   workflow_config:
+#     name: "default-workflow"
+#     cron_expression: "0 3 * * *"
+#     included_targets:
+#       database: "bigquery"
+#       dataset_id: "curated"
+
+sftp_connector:
+  vpc_network:
+    name: "vpc-for-sftp-connector"
+    auto_create_subnetworks: false
+    mtu: 1460
+    region: "europe-west8"
+    subnetwork:
+      name: "public-subnet"
+      ip_cidr_range: "192.168.1.0/24"
+  
+  vpc_access_connector:
+    name: "vpc-access-connector"
+    ip_cidr_range: "192.168.8.0/28"
+
+  cf_bucket:
+    name: "gcf-bucket"
+    location: "europe-west8"
+    storage_class: "STANDARD"
+
+  bucket_object:
+    name: "tables_config"
+    source: "../tables_configuration/config.json"
+    content_type: "application/json"
+
+  secrets:
+    keyring_name: "product_keyring"       
+    location: "europe-west1"               
+    key_name: "product_key"             
+    secret_password: "sftp_password"   
+    secret_ssh_key: "sftp_ssh_key"                 
+
+  cloud_function:
+    name: "import-sftp-tables-to-gcs"
+    description: "Cloud Function with static IP that imports SFTP tables to GCS"
+    location_cf: "europe-west8"
+    runtime: "python310"
+    memory_mb: 32Gi
+    timeout_seconds: 3600
+    timeout_seconds_triggered_cf: 540
+    available_cpu: 8
+    source_object: "cf-code/cf-source.zip"
+    environment_variables:
+      GCP_PROJECT_ID: "bli-bi-commerciale-env-001" 
+    vpc_connector_egress_settings: "ALL_TRAFFIC"
+    max_instance_count: 33
+    trigger_http: true
+    entry_point: "main"
+
+  static_ip:
+    name: "gcf-nat-gateway"
+
+  router:
+    name: "gcf-router"
+    nat_ip_allocate_option: "MANUAL_ONLY"
+    source_subnetwork_ip_ranges_to_nat: "ALL_SUBNETWORKS_ALL_IP_RANGES"
+    log_config_enable: true
+    log_filter: "ERRORS_ONLY"
+  
+  cloud_scheduler_jobs_prd:
+  # ANAGRAFICHE
+  - table: "nazione.txt"
+    schedule: "50 07 * * *" # 07:50 (Rome time)
+  - table: "prodotto.txt"
+    schedule: "51 07 * * *"
+  - table: "cliente.txt"
+    schedule: "52 07 * * *" 
+  - table: "campagna_canvass.txt"
+    schedule: "53 07 * * *"
+  # # BUSINESS UNIT  
+  - table: "divisione.txt"
+    schedule: "55 07 * * *" 
+  - table: "mtx_business_unit.txt"
+    schedule: "56 07 * * *" 
+  - table: "business.txt"
+    schedule: "57 07 * * *" 
+  # FATTI
+  - table: "consuntivo.txt"
+    schedule: "58 07 * * *" 
+  - table: "consuntivo_ap_al.txt"
+    schedule: "59 07 * * *"
+
+  # #   NOT TO SCHEDULE:
+  # - table: "budget.txt"
+  #   schedule: "41 10 * * *" 
+  # - table: "consuntivo_storico.txt"
+  #   schedule: "31 14 * * *" 
+
+  cloud_scheduler_jobs_dev:
+  # ANAGRAFICHE
+  - table: "nazione.txt"
+    schedule: "50 08 1 * *" # 08:50 (Rome time) del primo giorno di ogni mese 
+  - table: "prodotto.txt"
+    schedule: "51 08 1 * *"
+  - table: "cliente.txt"
+    schedule: "52 08 1 * *" 
+  - table: "campagna_canvass.txt"
+    schedule: "53 08 1 * *"
+  # BUSINESS UNIT  
+  - table: "mtx_business_unit.txt"
+    schedule: "55 08 * * *" 
+  - table: "divisione.txt"
+    schedule: "56 08 * * *" 
+  - table: "business.txt"
+    schedule: "57 08 * * *" 
+  # FATTI
+  - table: "consuntivo.txt"
+    schedule: "58 08 1 * *" 
+  - table: "consuntivo_ap_al.txt"
+    schedule: "59 08 1 * *"
+
+  # #   NOT TO SCHEDULE:
+  # - table: "budget.txt"
+  #   schedule: "41 08 * * *" 
+  # - table: "consuntivo_storico.txt"
+  #   schedule: "31 08 * * *" 
+
+  cloud_scheduler_jobs_only_dataform_dev:
+  - table: "calendar.txt"
+    schedule: "54 08 1 * *"
+
+  cloud_scheduler_jobs_only_dataform_prd:
+  - table: "calendar.txt"
+    schedule: "54 07 * * *"
