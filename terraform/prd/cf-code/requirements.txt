@@ -1,0 +1,7 @@
+sshfs
+google-cloud-storage
+google-cloud-bigquery
+google-cloud-secret-manager
+google-cloud-dataform
+google-auth
+requests
