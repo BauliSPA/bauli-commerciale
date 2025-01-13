@@ -95,7 +95,7 @@ enabled_apis:
 #   repository:
 #     name: "dataform_repository" # Repository name
 #     display_name: "Bauli Dataform Repository"
-#     region: "europe-west1"
+#     #region: "europe-west1"
 #   release_config:
 #     name: "my_release" # Release name
 #     git_commitish: "main"
