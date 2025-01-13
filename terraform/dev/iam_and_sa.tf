@@ -4,7 +4,16 @@ resource "google_service_account" "sa" {
   display_name = "${local.project_id}-sa"
 }
 
-# Deprecated: this was to get the key of the service account for SAP Datasphere connection (don't delete)
+resource "google_project_iam_member" "roles" {
+  for_each = toset(local.service_account_roles)
+  project  = local.project_id
+  role     = each.value
+  member   = "serviceAccount:${google_service_account.sa.email}"
+
+  depends_on = [google_service_account.sa]
+}
+
+# To get the key of the service account for Terraform CD/CI
 resource "google_service_account_key" "sa_key" {
   service_account_id = google_service_account.sa.id
   private_key_type   = local.sa_private_key_type
@@ -18,14 +27,10 @@ resource "google_service_account_key" "sa_key" {
 
   depends_on = [google_service_account.sa]
 }
-# -------------------------------------------------------------------------------------------
 
-resource "google_project_iam_member" "roles" {
-  for_each = toset(local.service_account_roles)
-  project  = local.project_id
-  role     = each.value
-  member   = "serviceAccount:${google_service_account.sa.email}"
-
-  depends_on = [google_service_account.sa]
+# Role for Dataform service account to access Secret Manager
+resource "google_project_iam_member" "secret_role_for_dataform_sa" {
+  project = local.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:service-643188619111@gcp-sa-dataform.iam.gserviceaccount.com"
 }
-
