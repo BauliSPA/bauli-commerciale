@@ -58,21 +58,21 @@ resource "google_secret_manager_secret_version" "sftp_password_version" {
 }
 
 # SSH private key secret for GitHub-Dataform link
-data "google_kms_secret" "ssh_private_key_secret_decrypted" {
+data "google_kms_secret" "ssh_private_key_secret_dev_decrypted" {
   crypto_key = "projects/${local.project_id}/locations/${local.secrets.location}/keyRings/${local.secrets.keyring_name}/cryptoKeys/${local.secrets.key_name}"
-  ciphertext = "CiQAbDBkX4YhRkH29kJUzaIIIGD7afTDV/Ueu9Eovz5PO18tyHoShgMAfxH4yKHHxJNQbxwHdu2F6jTcNT9pKubu9T8uTufnNt//f9xPPI6bDnJIlAEJAHTlew4wO9C7+Fl/6UoLFNYv+mpbFPwHgFDhpZJhxD56vfJUAJ7Zzh9rJwvpDek/T+VBG3uVrM3n44g2KWoxqMeTHFKawfZS99tV3QUpT5Tkc8JAx2tTDK+8e41P0viubQTEsksHeX3Fkr5NkdSnCdqYkUXDSU0WghWEFmPXbMXYEeWRSNKVesEUjCRfRyV8cAwdWrP0I3lpYbjskrFjl8YkSqOclGB8ayHotDsWX9i/O4octvootDAU7MaT20F2hbn/Q0j35o299c6EVJFS1Ch3VUcbORz+yZoEbcO8gjvCHit6Sp1S5Sy3QbGNdsFXeiYkY0SjuK0AMVXYhen8KWYJAES3fkgB7oYkN6hZ3JeI2ZBMWDZB38cpf/3Ek5ivtFeRQqqbOgyvNVGvIedtNNKLN8F+j+2WRWSl34MmKA0twG5MUi/8Dol7AQE04q/1Y1kbdikuDEQ="
+  ciphertext = "CiQAbDBkX1k8rWfE9TGsr3HP3X/dJp/AHAFQmGqzWYbBW5fU5G0SzAMAfxH4yN0Ci2OsT8c5lcEhEJ7dFzbR77LXJs+NiowhaD9bmYAGGGX6ATML2ag7a6mlJ/A/0xLiLga1CTqHO/HF2eTTqKeQDjpycVTUo5cNDYKFNf0t9DUNBQ1e72eQoMUbVLTikmmzwcy9gU8k/gGLdK975IwKmJu/4yPJtdvidAqXTi1h+uUgwjlEaFtK3hjwJK1gHE1dd6i8p8DpusSDwi9QzsY4HBWa4+IAL3woJomYaB/OSFDn0V2gVkz788pmy6fNIw/fuIGQYCIuqsZyRvl6qs3QdkhtJgaMSV44hPxzEw8pX4MvhmBCnrltX2eRT7GWmtCyG8NJ37Jx1uLWvMdQJF62ZkjHj/l6+Pkv9cwqrwU8rMDdYhJwLykjk919lmLBMYtnYvylW/bRaCNT+EA8iKWa0fiDEPI0Y5LRTNy+l1ouagP59dW634QT6geUKG8m3UzQNCVPsebrDr1asMj1RpLo7bFaThEvjcZdybC0HVTqQUKEU0bhfYfepmapb4ARjCam9rDpiRAXe+2rKIsF6UkosLEW7XdVm+5hSeEhtwP7UkPmxVsfwZpn4yWCdiLyHbqL3837ewhkFj9G66+LiW9W+3Y2Wopt"
 }
 
-resource "google_secret_manager_secret" "ssh_private_key_secret" {
-  secret_id = "ssh-private-key-secret"
+resource "google_secret_manager_secret" "ssh_private_key_dev_secret" {
+  secret_id = "ssh-private-key-dev-secret"
   replication {
     auto {}
   }
 }
 
-resource "google_secret_manager_secret_version" "ssh_private_key_secret_version" {
-  secret      = google_secret_manager_secret.ssh_private_key_secret.id
-  secret_data = data.google_kms_secret.ssh_private_key_secret_decrypted.plaintext
+resource "google_secret_manager_secret_version" "ssh_private_key_secret_dev_version" {
+  secret      = google_secret_manager_secret.ssh_private_key_dev_secret.id
+  secret_data = data.google_kms_secret.ssh_private_key_secret_dev_decrypted.plaintext
 
-  depends_on = [google_secret_manager_secret.ssh_private_key_secret]
+  depends_on = [google_secret_manager_secret.ssh_private_key_dev_secret]
 }
