@@ -216,11 +216,11 @@ sftp_connector:
     schedule: "53 08 1 * *"
   # BUSINESS UNIT  
   - table: "mtx_business_unit.txt"
-    schedule: "55 08 * * *" 
+    schedule: "55 08 1 * *" 
   - table: "divisione.txt"
-    schedule: "56 08 * * *" 
+    schedule: "56 08 1 * *" 
   - table: "business.txt"
-    schedule: "57 08 * * *" 
+    schedule: "57 08 1 * *" 
   # FATTI
   - table: "consuntivo.txt"
     schedule: "58 08 1 * *" 

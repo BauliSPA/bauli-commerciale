@@ -58,21 +58,21 @@ resource "google_secret_manager_secret_version" "sftp_password_version" {
 }
 
 # SSH private key secret for GitHub-Dataform link
-data "google_kms_secret" "ssh_private_key_secret_decrypted" {
-  crypto_key = "projects/${local.project_id}/locations/${local.secrets.location}/keyRings/${local.secrets.keyring_name}/cryptoKeys/${local.secrets.key_name}"
-  ciphertext = "CiQAbDBkX4YhRkH29kJUzaIIIGD7afTDV/Ueu9Eovz5PO18tyHoShgMAfxH4yKHHxJNQbxwHdu2F6jTcNT9pKubu9T8uTufnNt//f9xPPI6bDnJIlAEJAHTlew4wO9C7+Fl/6UoLFNYv+mpbFPwHgFDhpZJhxD56vfJUAJ7Zzh9rJwvpDek/T+VBG3uVrM3n44g2KWoxqMeTHFKawfZS99tV3QUpT5Tkc8JAx2tTDK+8e41P0viubQTEsksHeX3Fkr5NkdSnCdqYkUXDSU0WghWEFmPXbMXYEeWRSNKVesEUjCRfRyV8cAwdWrP0I3lpYbjskrFjl8YkSqOclGB8ayHotDsWX9i/O4octvootDAU7MaT20F2hbn/Q0j35o299c6EVJFS1Ch3VUcbORz+yZoEbcO8gjvCHit6Sp1S5Sy3QbGNdsFXeiYkY0SjuK0AMVXYhen8KWYJAES3fkgB7oYkN6hZ3JeI2ZBMWDZB38cpf/3Ek5ivtFeRQqqbOgyvNVGvIedtNNKLN8F+j+2WRWSl34MmKA0twG5MUi/8Dol7AQE04q/1Y1kbdikuDEQ="
-}
+# data "google_kms_secret" "ssh_private_key_dev_secret_decrypted" {
+#   crypto_key = "projects/${local.project_id}/locations/${local.secrets.location}/keyRings/${local.secrets.keyring_name}/cryptoKeys/${local.secrets.key_name}"
+#   ciphertext = "CiQAbDBkX4YhRkH29kJUzaIIIGD7afTDV/Ueu9Eovz5PO18tyHoShgMAfxH4yKHHxJNQbxwHdu2F6jTcNT9pKubu9T8uTufnNt//f9xPPI6bDnJIlAEJAHTlew4wO9C7+Fl/6UoLFNYv+mpbFPwHgFDhpZJhxD56vfJUAJ7Zzh9rJwvpDek/T+VBG3uVrM3n44g2KWoxqMeTHFKawfZS99tV3QUpT5Tkc8JAx2tTDK+8e41P0viubQTEsksHeX3Fkr5NkdSnCdqYkUXDSU0WghWEFmPXbMXYEeWRSNKVesEUjCRfRyV8cAwdWrP0I3lpYbjskrFjl8YkSqOclGB8ayHotDsWX9i/O4octvootDAU7MaT20F2hbn/Q0j35o299c6EVJFS1Ch3VUcbORz+yZoEbcO8gjvCHit6Sp1S5Sy3QbGNdsFXeiYkY0SjuK0AMVXYhen8KWYJAES3fkgB7oYkN6hZ3JeI2ZBMWDZB38cpf/3Ek5ivtFeRQqqbOgyvNVGvIedtNNKLN8F+j+2WRWSl34MmKA0twG5MUi/8Dol7AQE04q/1Y1kbdikuDEQ="
+# }
 
-resource "google_secret_manager_secret" "ssh_private_key_secret" {
-  secret_id = "ssh-private-key-secret"
-  replication {
-    auto {}
-  }
-}
+# resource "google_secret_manager_secret" "ssh_private_key_dev_secret" {
+#   secret_id = "ssh-private-key-dev-secret"
+#   replication {
+#     auto {}
+#   }
+# }
 
-resource "google_secret_manager_secret_version" "ssh_private_key_secret_version" {
-  secret      = google_secret_manager_secret.ssh_private_key_secret.id
-  secret_data = data.google_kms_secret.ssh_private_key_secret_decrypted.plaintext
+# resource "google_secret_manager_secret_version" "ssh_private_key_dev_secret_version" {
+#   secret      = google_secret_manager_secret.ssh_private_key_dev_secret.id
+#   secret_data = data.google_kms_secret.ssh_private_key_dev_secret_decrypted.plaintext
 
-  depends_on = [google_secret_manager_secret.ssh_private_key_secret]
-}
+#   depends_on = [google_secret_manager_secret.ssh_private_key_dev_secret]
+# }
