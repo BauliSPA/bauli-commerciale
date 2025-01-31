@@ -42,6 +42,23 @@ resource "google_storage_bucket_object" "cf_source" {
   source = "cf-code/cf-source.zip"
 }
 
+# Bucket for Cloud Function source code (BUCKET TRIGGERED CLOUD FUNCTION)
+resource "google_storage_bucket" "cf_bucket_triggered" {
+  name          = "${local.project_id}-gcf-bucket-triggered"
+  location      = local.cf_bucket.location
+  storage_class = local.cf_bucket.storage_class
+  force_destroy = true
+}
+
+# Bucket objet for source code (BUCKET TRIGGERED CLOUD FUNCTION)
+resource "google_storage_bucket_object" "cf_source_triggered" {
+  name   = "cf-code-${md5(filemd5("cf-code-bucket-triggered/cf-source.zip"))}.zip"
+  bucket = google_storage_bucket.cf_bucket_triggered.name
+  source = "cf-code-bucket-triggered/cf-source.zip"
+
+  depends_on = [google_storage_bucket.cf_bucket_triggered]
+}
+
 # 1st gen Cloud Function (not used)
 # resource "google_cloudfunctions_function" "google_cloud_function" {
 #   name                = local.cloud_function.name
@@ -60,6 +77,18 @@ resource "google_storage_bucket_object" "cf_source" {
 
 #   depends_on = [google_vpc_access_connector.connector, google_storage_bucket.cf_bucket]
 # }
+
+# Resource for GCS trigger for Cloud Function
+#------------------------------------------------------------------------------------------------------
+data "google_storage_project_service_account" "gcs_account" {
+}
+
+resource "google_project_iam_member" "gcs-pubsub-publishing" {
+  project = local.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}"
+}
+#------------------------------------------------------------------------------------------------------
 
 # 2gen Cloud Function
 resource "google_cloudfunctions2_function" "google_cloud_function_2gen" {
@@ -105,6 +134,60 @@ resource "google_cloudfunctions2_function" "google_cloud_function_2gen" {
   depends_on = [google_vpc_access_connector.connector, google_storage_bucket.cf_bucket, google_storage_bucket_object.cf_source]
 }
 
+# 2gen Cloud Function (BUCKET TRIGGERED VERSION)
+# resource "google_cloudfunctions2_function" "google_cloud_function_2gen_triggered" {
+#   name        = "${local.cloud_function.name}-triggered"
+#   description = local.cloud_function.description
+#   location    = local.cloud_function.location_cf
+
+#   build_config {
+#     runtime     = local.cloud_function.runtime
+#     entry_point = local.cloud_function.entry_point
+
+#     source {
+#       storage_source {
+#         bucket = google_storage_bucket.cf_bucket_triggered.name
+#         object = google_storage_bucket_object.cf_source_triggered.name
+#       }
+#     }
+#   }
+
+#   service_config {
+#     available_memory = local.cloud_function.memory_mb
+#     timeout_seconds  = local.cloud_function.timeout_seconds_triggered_cf
+#     available_cpu    = local.cloud_function.available_cpu
+
+#     environment_variables = local.cloud_function.environment_variables
+
+#     vpc_connector                 = google_vpc_access_connector.connector.name
+#     vpc_connector_egress_settings = local.cloud_function.vpc_connector_egress_settings
+
+#     max_instance_count = local.cloud_function.max_instance_count
+
+#     secret_environment_variables {
+#       key        = "sftp_password"
+#       project_id = local.project_id
+#       secret     = google_secret_manager_secret.sftp_password.secret_id
+#       version    = "latest"
+#     }
+
+#     service_account_email = google_service_account.sa.email
+
+#   }
+
+#   event_trigger {
+#     trigger_region        = "eu"
+#     event_type            = "google.cloud.storage.object.v1.finalized"
+#     retry_policy          = "RETRY_POLICY_RETRY"
+#     service_account_email = google_service_account.sa.email
+#     event_filters {
+#       attribute = "bucket"
+#       value     = google_storage_bucket.landing_bucket.name
+#     }
+#   }
+
+#   depends_on = [google_vpc_access_connector.connector, google_storage_bucket.cf_bucket_triggered, google_storage_bucket_object.cf_source_triggered, google_project_iam_member.gcs-pubsub-publishing]
+# }
 
 # Static IP
 resource "google_compute_address" "nat_ip" {
