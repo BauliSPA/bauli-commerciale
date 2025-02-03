@@ -222,31 +222,31 @@ resource "google_compute_router_nat" "nat" {
 }
 
 # # Cloud Scheduler job to trigger the Cloud Function for each table listed in the yaml
-resource "google_cloud_scheduler_job" "daily_trigger_job" {
-  for_each = { for job in local.config.sftp_connector.cloud_scheduler_jobs_prd : job.table => job }
+# resource "google_cloud_scheduler_job" "daily_trigger_job" {
+#   for_each = { for job in local.config.sftp_connector.cloud_scheduler_jobs_prd : job.table => job }
 
-  name             = "${replace(replace(each.value.table, ".txt", ""), ".csv", "")}-scheduler-job"
-  description      = "Job to trigger Cloud Function for SFTP to GCS import for table ${replace(replace(each.value.table, ".txt", ""), ".csv", "")}"
-  schedule         = each.value.schedule
-  region           = "europe-west1"
-  time_zone        = "Europe/Rome"
-  attempt_deadline = "1800s"
+#   name             = "${replace(replace(each.value.table, ".txt", ""), ".csv", "")}-scheduler-job"
+#   description      = "Job to trigger Cloud Function for SFTP to GCS import for table ${replace(replace(each.value.table, ".txt", ""), ".csv", "")}"
+#   schedule         = each.value.schedule
+#   region           = "europe-west1"
+#   time_zone        = "Europe/Rome"
+#   attempt_deadline = "1800s"
 
-  http_target {
-    uri         = "https://${local.cloud_function.location_cf}-${local.project_id}.cloudfunctions.net/import-sftp-tables-to-gcs"
-    http_method = "POST"
-    body        = base64encode(jsonencode({ "file_name" = each.value.table }))
-    headers = {
-      Content-Type = "application/json"
-    }
+#   http_target {
+#     uri         = "https://${local.cloud_function.location_cf}-${local.project_id}.cloudfunctions.net/import-sftp-tables-to-gcs"
+#     http_method = "POST"
+#     body        = base64encode(jsonencode({ "file_name" = each.value.table }))
+#     headers = {
+#       Content-Type = "application/json"
+#     }
 
-    oidc_token {
-      service_account_email = google_service_account.sa.email
-    }
-  }
+#     oidc_token {
+#       service_account_email = google_service_account.sa.email
+#     }
+#   }
 
-  depends_on = [google_cloudfunctions2_function.google_cloud_function_2gen]
-}
+#   depends_on = [google_cloudfunctions2_function.google_cloud_function_2gen]
+# }
 
 # -------------------------------------------------------------------------------------
 # CF which triggers only Dataform
