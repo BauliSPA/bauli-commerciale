@@ -135,59 +135,59 @@ resource "google_cloudfunctions2_function" "google_cloud_function_2gen" {
 }
 
 # 2gen Cloud Function (BUCKET TRIGGERED VERSION)
-# resource "google_cloudfunctions2_function" "google_cloud_function_2gen_triggered" {
-#   name        = "${local.cloud_function.name}-triggered"
-#   description = local.cloud_function.description
-#   location    = local.cloud_function.location_cf
+resource "google_cloudfunctions2_function" "google_cloud_function_2gen_triggered" {
+  name        = "${local.cloud_function.name}-triggered"
+  description = local.cloud_function.description
+  location    = local.cloud_function.location_cf
 
-#   build_config {
-#     runtime     = local.cloud_function.runtime
-#     entry_point = local.cloud_function.entry_point
+  build_config {
+    runtime     = local.cloud_function.runtime
+    entry_point = local.cloud_function.entry_point
 
-#     source {
-#       storage_source {
-#         bucket = google_storage_bucket.cf_bucket_triggered.name
-#         object = google_storage_bucket_object.cf_source_triggered.name
-#       }
-#     }
-#   }
+    source {
+      storage_source {
+        bucket = google_storage_bucket.cf_bucket_triggered.name
+        object = google_storage_bucket_object.cf_source_triggered.name
+      }
+    }
+  }
 
-#   service_config {
-#     available_memory = local.cloud_function.memory_mb
-#     timeout_seconds  = local.cloud_function.timeout_seconds_triggered_cf
-#     available_cpu    = local.cloud_function.available_cpu
+  service_config {
+    available_memory = local.cloud_function.memory_mb
+    timeout_seconds  = local.cloud_function.timeout_seconds_triggered_cf
+    available_cpu    = local.cloud_function.available_cpu
 
-#     environment_variables = local.cloud_function.environment_variables
+    environment_variables = local.cloud_function.environment_variables
 
-#     vpc_connector                 = google_vpc_access_connector.connector.name
-#     vpc_connector_egress_settings = local.cloud_function.vpc_connector_egress_settings
+    vpc_connector                 = google_vpc_access_connector.connector.name
+    vpc_connector_egress_settings = local.cloud_function.vpc_connector_egress_settings
 
-#     max_instance_count = local.cloud_function.max_instance_count
+    max_instance_count = local.cloud_function.max_instance_count
 
-#     secret_environment_variables {
-#       key        = "sftp_password"
-#       project_id = local.project_id
-#       secret     = google_secret_manager_secret.sftp_password.secret_id
-#       version    = "latest"
-#     }
+    secret_environment_variables {
+      key        = "sftp_password"
+      project_id = local.project_id
+      secret     = google_secret_manager_secret.sftp_password.secret_id
+      version    = "latest"
+    }
 
-#     service_account_email = google_service_account.sa.email
+    service_account_email = google_service_account.sa.email
 
-#   }
+  }
 
-#   event_trigger {
-#     trigger_region        = "eu"
-#     event_type            = "google.cloud.storage.object.v1.finalized"
-#     retry_policy          = "RETRY_POLICY_RETRY"
-#     service_account_email = google_service_account.sa.email
-#     event_filters {
-#       attribute = "bucket"
-#       value     = google_storage_bucket.landing_bucket.name
-#     }
-#   }
+  event_trigger {
+    trigger_region        = "eu"
+    event_type            = "google.cloud.storage.object.v1.finalized"
+    retry_policy          = "RETRY_POLICY_RETRY"
+    service_account_email = google_service_account.sa.email
+    event_filters {
+      attribute = "bucket"
+      value     = google_storage_bucket.landing_bucket.name
+    }
+  }
 
-#   depends_on = [google_vpc_access_connector.connector, google_storage_bucket.cf_bucket_triggered, google_storage_bucket_object.cf_source_triggered, google_project_iam_member.gcs-pubsub-publishing]
-# }
+  depends_on = [google_vpc_access_connector.connector, google_storage_bucket.cf_bucket_triggered, google_storage_bucket_object.cf_source_triggered, google_project_iam_member.gcs-pubsub-publishing]
+}
 
 # Static IP
 resource "google_compute_address" "nat_ip" {
