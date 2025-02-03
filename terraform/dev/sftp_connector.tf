@@ -178,7 +178,7 @@ resource "google_cloudfunctions2_function" "google_cloud_function_2gen_triggered
   event_trigger {
     trigger_region        = "eu"
     event_type            = "google.cloud.storage.object.v1.finalized"
-    retry_policy          = "RETRY_POLICY_RETRY"
+    retry_policy          = "RETRY_POLICY_DO_NOT_RETRY"
     service_account_email = google_service_account.sa.email
     event_filters {
       attribute = "bucket"
