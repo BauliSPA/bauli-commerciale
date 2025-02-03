@@ -75,6 +75,7 @@ service_account:
     - "roles/run.invoker"
     - "roles/eventarc.eventReceiver"
     - "roles/artifactregistry.reader"
+    - "roles/storage.admin"
 
 enabled_apis:
   - "bigquery.googleapis.com"
