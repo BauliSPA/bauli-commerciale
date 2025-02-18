@@ -1,87 +1,18 @@
-from sshfs import SSHFileSystem  # type: ignore
-
-from google.cloud import storage, bigquery#, secretmanager
-#import io
 import json
 import os
-from google.cloud import dataform_v1beta1
-#import time
-#from google.cloud.exceptions import NotFound
+import requests
+import time
+from google.cloud import storage, bigquery, dataform_v1beta1, secretmanager
 
-# After any change of the cf you must run the following command:
-# zip cf-source.zip main.py requirements.txt
-# in order to create the zip file for terraform
-
-# # Fetch secret from Secret Manager
-# def get_secret(secret_name):
-#     """Retrieve the secret from Secret Manager."""
-#     client = secretmanager.SecretManagerServiceClient()
-#     project_id = os.getenv("GCP_PROJECT_ID", "bli-bi-commerciale-test-001").replace("env","test")
-#     secret_path = f"projects/{project_id}/secrets/{secret_name}/versions/latest"
-
-#     response = client.access_secret_version(name=secret_path)
-#     return response.payload.data.decode("UTF-8")
-
-# # SFTP connection
-# def sftp_connection(host, username, password, port_number, client_keys=None):
-#     """Connect to SFTP server using sshfs."""
-#     fs = SSHFileSystem(
-#         host,
-#         username=username,
-#         password=password,
-#         port=port_number,
-#         client_keys=client_keys, 
-#     )
-#     print("Connected to SFTP server")
-#     return fs
-
-# # Download file from SFTP
-# def download_file_from_sftp(ftp_client, remote_file_path, file):
-#     """Download file from SFTP into an in-memory buffer."""
-#     start_time = time.time()
-#     print(f"File {file} download from SFTP start time: {start_time}")
+# Function to get secret from Secret Manager
+def get_secret(secret_name):
+    """Retrieve the secret from Secret Manager."""
+    client = secretmanager.SecretManagerServiceClient()
+    project_id = os.getenv("GCP_PROJECT_ID", "bli-bi-commerciale-test-001").replace("env", "test")
+    secret_path = f"projects/{project_id}/secrets/{secret_name}/versions/latest"
     
-#     file_like_object = io.BytesIO()
-#     with ftp_client.open(remote_file_path, "rb") as remote_file:
-#         file_like_object.write(remote_file.read())
-#     file_like_object.seek(0)  # Reset buffer position
-
-#     end_time = time.time()
-#     print(f"File {file} download end time: {end_time}")
-#     print(f"Time taken to download the file {file}: {end_time - start_time} seconds")
-#     return file_like_object
-
-# # Upload to GCS
-# def upload_to_gcs(bucket_name, source_file_obj, destination_blob_name, file):
-#     """Upload a file object to Google Cloud Storage, replacing the existing one if it exists."""
-#     storage_client = storage.Client()
-#     bucket = storage_client.bucket(bucket_name)
-#     blob = bucket.blob(destination_blob_name)
-
-#     # Check and delete the existing file
-#     try:
-#         blob.delete()
-#         print(f"Existing file {destination_blob_name} deleted from GCS.")
-#     except NotFound:
-#         print(f"No existing file found for {destination_blob_name} in GCS.")
-
-#     # Upload the new file
-#     start_time = time.time()
-#     print(f"File {file} upload start time: {start_time}")
-#     blob.upload_from_file(source_file_obj, content_type='text/csv')
-#     end_time = time.time()
-
-#     print(f"File uploaded to GCS: {destination_blob_name}")
-#     print(f"File {file} upload end time: {end_time}")
-#     print(f"Time taken to upload file {file} to GCS: {end_time - start_time} seconds")
-
-#     # Wait for the new file to become accessible
-#     time.sleep(5)  # Delay to ensure file is propagated and accessible
-#     new_blob = bucket.get_blob(destination_blob_name)
-#     if new_blob:
-#         print(f"New file {destination_blob_name} is now accessible in GCS. Size: {new_blob.size} bytes.")
-#     else:
-#         raise RuntimeError(f"New file {destination_blob_name} is not accessible in GCS after upload.")
+    response = client.access_secret_version(name=secret_path)
+    return response.payload.data.decode("UTF-8")
 
 # Load schema from JSON configuration in GCS
 def load_schema_from_config(bucket_name, config_path, table_name):
@@ -146,30 +77,90 @@ def run_workflow(project, location, repo_name, workflow_config_name):
         response = df_client.create_workflow_invocation(request=request)
         name = response.name
         print(f"Triggered Dataform workflow '{workflow_config_name}' successfully with invocation name: {name}")
+        invocation_id = name.split("/")[-1]
+        return invocation_id
     except Exception as e:
         print(f"Failed to trigger Dataform workflow '{workflow_config_name}'. Error: {str(e)}")
+        return None
 
-# # Entry point for the Cloud Function
-# def main(request):
-#     request_json = request.get_json()
+# Check the status of the Dataform workflow invocation
+def check_workflow_status(project, location, repo_name, invocation_id):
+    df_client = dataform_v1beta1.DataformClient()
+    name = f"projects/{project}/locations/{location}/repositories/{repo_name}/workflowInvocations/{invocation_id}"
 
-#     if not request_json or 'file_name' not in request_json:
-#         raise ValueError("Request must contain 'file_name'.")
+    while True:
+        # Get the state of the workflow invocation
+        invocation = df_client.get_workflow_invocation(name=name)
+        state = invocation.state
+        print(f"Workflow invocation state: {state}")
 
-#     file_name = request_json['file_name']
+        # Handle terminal states
+        if state == "SUCCEEDED" or state == 2:
+            print("Workflow completed successfully.")
+            return state  # The workflow completed successfully
+        elif state == "FAILED":# or state == 3:
+            print("Workflow failed.")
+            return state  # The workflow failed
+        elif state == "CANCELLED":# or state == 4:
+            print("Workflow was cancelled.")
+            return state  # The workflow was cancelled
 
-    # # SFTP server details
-    # sftp_host = "88.42.161.38"
-    # sftp_username = "sdg"
-    # sftp_password = get_secret("sftp_password")
-    # sftp_port = 22
+        # Handle the 'CANCELING' state when the workflow is being cancelled
+        elif state == "CANCELING":# or state == 5:
+            print("Workflow is being cancelled, some actions are still running...")
 
-    # # Connect to SFTP server
-    # fs = sftp_connection(sftp_host, sftp_username, sftp_password, sftp_port)
+        # Handle the 'RUNNING' state when the workflow is still in progress
+        elif state == "RUNNING" or state == 1:
+            print("Workflow still running, waiting for completion...")
 
-    # # Download file
-    # remote_file_path = f"files/{file_name}"
-    # file_like_object = download_file_from_sftp(fs, remote_file_path, file_name)
+        else:
+            print(f"Unknown or unhandled state: {state}")
+            return state
+
+        # Wait for 30 seconds before the next check
+        time.sleep(30)
+
+# Get Power BI access token
+def get_powerbi_access_token():
+    tenant_id = "8cb50eb8-1bfe-4ad4-b513-6ff79ec168e1"
+    client_id = "41835175-8905-4bf5-82aa-88bb448e82ee"
+    client_secret = get_secret("power-bi-password-dev-secret")
+    resource = "https://analysis.windows.net/powerbi/api"
+    
+    url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/token"
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    data = {
+        "grant_type": "client_credentials",
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "resource": resource
+    }
+
+    response = requests.post(url, headers=headers, data=data)
+    if response.status_code == 200:
+        return response.json().get("access_token")
+    else:
+        raise Exception(f"Failed to get Power BI access token: {response.text}")
+
+#  Execute the Power BI refresh
+def refresh_powerbi_dataset(dataset_id):
+    access_token = get_powerbi_access_token()
+    url = f"https://api.powerbi.com/v1.0/myorg/datasets/{dataset_id}/refreshes"
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+
+    body = {
+        "notifyOption": "NoNotification" #MailOnFailure if you want to receive an email on failure
+    }
+
+    response = requests.post(url, headers=headers, json=body)
+    if response.status_code in [200, 202]:
+        print(f"Power BI dataset {dataset_id} refresh triggered successfully.")
+    else:
+        raise Exception(f"Failed to refresh Power BI dataset: {response.text}")
 
 # Entry point for the Cloud Function
 def main(event, context):
@@ -214,6 +205,17 @@ def main(event, context):
     project = os.getenv("GCP_PROJECT_ID", "bli-bi-commerciale-test-001").replace("env","test")
     location = "europe-west8"
     repo_name = "dataform-bauli-dwh-commerciale"
-    run_workflow(project, location, repo_name, table_name_with_prefix)
+    invocation_id = run_workflow(project, location, repo_name, table_name_with_prefix)
 
+    # Check the workflow status
+    workflow_status = check_workflow_status(project, location, repo_name, invocation_id)
+
+    dataset_id = "0684c9b3-4da7-4a14-993c-3267139707db" # dev
+
+    # Refresh Power BI dataset if the workflow succeeded
+    if workflow_status == "SUCCEEDED" or workflow_status == 2:
+        refresh_powerbi_dataset(dataset_id)
+    else:
+        raise Exception(f"Dataform workflow failed with status: {workflow_status}")
+    
     return "Process completed successfully.", 200

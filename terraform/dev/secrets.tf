@@ -76,3 +76,23 @@ resource "google_secret_manager_secret_version" "sftp_password_version" {
 
 #   depends_on = [google_secret_manager_secret.ssh_private_key_dev_secret]
 # }
+
+# Secret for Power BI connection
+data "google_kms_secret" "power_bi_password_dev_secret_decrypted" {
+  crypto_key = "projects/${local.project_id}/locations/${local.secrets.location}/keyRings/${local.secrets.keyring_name}/cryptoKeys/${local.secrets.key_name}"
+  ciphertext = "CiQAbDBkXzHSp1EEKqaEABWkP1BkijS2BwyodXJaOGdULFZy9o0SUQB/EfjIkanLmyksRM3ezYY8vhgWjcGz8KcWzYyQ8GSH/yqnfWPrX8FFFHE/38YPwJHhzHOdvCZFuMp1aeoNOf+higbR4hR8NwmnjyIThKOpNQ=="
+}
+
+resource "google_secret_manager_secret" "power_bi_password_dev_secret" {
+  secret_id = "power-bi-password-dev-secret"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "power_bi_password_dev_secret_version" {
+  secret      = google_secret_manager_secret.power_bi_password_dev_secret.id
+  secret_data = data.google_kms_secret.power_bi_password_dev_secret_decrypted.plaintext
+
+  depends_on = [google_secret_manager_secret.power_bi_password_dev_secret]
+}
